@@ -1,0 +1,21 @@
+.question-section, .response-section, .result-section {
+    width: 100%;
+    max-width: 600px; /* Adjust based on your design */
+    margin-bottom: 20px;
+  }
+  
+  .question-section input {
+    width: calc(100% - 100px);
+    margin-right: 10px;
+  }
+  
+  .question-section button, .response-section button {
+    width: 90px;
+  }
+  
+  .response {
+    background-color: #def;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
