@@ -1,21 +1,78 @@
-.question-section, .response-section, .result-section {
+.UserPage {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .input-area, .responses-area {
     width: 100%;
-    max-width: 600px; /* Adjust based on your design */
+    max-width: 600px;
     margin-bottom: 20px;
   }
   
-  .question-section input {
-    width: calc(100% - 100px);
-    margin-right: 10px;
+  .input-area {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
   }
   
-  .question-section button, .response-section button {
-    width: 90px;
+  .input-area input {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .input-area button {
+    padding: 10px 20px;
+    font-size: 16px;
   }
   
   .response {
-    background-color: #def;
-    padding: 10px;
-    margin-bottom: 10px;
+    background-color: #f7f7f7;
+    border: 1px solid #e1e1e1;
     border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .response-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .response-text {
+    font-size: 16px;
+    background-color: #e1e1e1;
+    padding: 15px;
+    border-radius: 5px;
+    min-height: 50px; /* Adjust height as needed */
+  }
+  
+  .response button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #4e9af1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .response button:hover {
+    background-color: #3578e5;
+  }
+  
+  @media (max-width: 600px) {
+    .input-area, .responses-area {
+      width: 90%;
+    }
+  
+    .input-area button, .response button {
+      padding: 10px;
+    }
   }

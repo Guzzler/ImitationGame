@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import "./HumanPage.css"; // Make sure to create this CSS file for styling
 
 const HumanPage = () => {
-  const [question, setQuestion] = useState(""); // This will be set when a new question comes in
+  const [question, setQuestion] = useState("What's your favourite colour?"); // Placeholder question
   const [answer, setAnswer] = useState("");
 
-  const handleAnswerSubmit = async () => {
-    // Here you would send the answer to your backend
-    console.log(answer);
-    // After submitting, clear the current answer
+  const handleAnswerSubmit = () => {
+    // Submit the answer to the backend
+    console.log("Submitted answer:", answer);
+    // Reset the answer input
     setAnswer("");
-    // Optionally, fetch the next question if that's how your flow works
+    // Fetch the next question if applicable
   };
 
   return (
-    <div className="human-page">
-      <div className="question-display">
-        <p>Question: {question}</p>
+    <div className="HumanPage">
+      <div className="question-box">
+        <p className="question">Question: {question}</p>
       </div>
-      <div className="answer-section">
+      <div className="answer-box">
         <input
           type="text"
           placeholder="Answer..."
