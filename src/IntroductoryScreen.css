@@ -1,0 +1,86 @@
+.IntroductoryScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: antiquewhite;
+    min-height: 100vh;
+  }
+  
+  .rules-section {
+    margin-bottom: 20px;
+    text-align: justify;
+    max-width: 50%;
+  }
+  
+  .difficulty-selection {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+  
+  .difficulty-btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .difficulty-btn.selected {
+    background-color: #4CAF50;
+    color: #fff;
+  }
+  
+  .challenger-selection {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .challenger {
+    margin: 0 10px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .challenger img {
+    width: 150px; /* Adjust as needed */
+    height: 150px; /* Adjust as needed */
+    border-radius: 50%;
+    border: 4px solid transparent;
+  }
+  
+  .challenger.selected img {
+    border-color: #1f1f1f;
+  }
+  
+  .challenger.selected p {
+    color: #1f1f1f; /* Highlight the name in the same color as the border */
+    font-weight: bold; /* Optionally make the name bold when selected */
+  }
+  
+  .challenger p {
+    margin-top: 5px;
+  }
+  
+  .start-game-btn {
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .start-game-btn:hover {
+    background-color: #1976D2;
+  }
+
+  .start-game-btn:disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc !important;
+    color: #666666;
+  }
+  

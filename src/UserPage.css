@@ -1,78 +1,209 @@
 .UserPage {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    display: flex;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: antiquewhite; /* Consistent background color */
+  min-height: 100vh;
+}
+
+.page-title {
+  margin-bottom: 32px;
+  color: #1f1f1f; /* Title color */
+  font-size: 24px; /* Larger font size for title */
+}
+
+.game-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: cornsilk;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.question-bubble {
+  background-color: antiquewhite;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 5px 0;
+  max-width: 50%;
+}
+
+.response-bubble {
+  background-color: antiquewhite;
+  padding:10px;
+  border-radius: 8px;
+  margin-left: auto;
+  max-width: 50%;
+  text-align: right;
+}
+
+
+.info-item {
+  margin: 0 15px;
+  text-align: center;
+}
+
+.info-label {
+  font-weight: bold;
+  display: block;
+  color: #1f1f1f;
+}
+
+.info-value {
+  color: #1f1f1f;
+  text-transform: capitalize;
+}
+
+.input-area, .responses-area {
+  width: 100%;
+  max-width: 1000px; /* Increased max width for better layout */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.input-area {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-area input {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc; /* Border for the input */
+  border-radius: 5px; /* Rounded corners for the input */
+}
+
+.input-area button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50; /* Green color for the button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input-area button:hover {
+  background-color: #388E3C; /* Darker green on hover */
+}
+
+.responses-area {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px; /* Padding for responses area */
+}
+
+.response {
+  flex: 1;
+  margin-right: 10px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #e1e1e1;
+  border-radius: 5px;
+}
+
+.response:last-child {
+  margin-right: 0;
+}
+
+.response-label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333; /* Darker text for better readability */
+}
+
+.response-text {
+  font-size: 16px;
+  background-color: #e1e1e1;
+  padding: 15px;
+  border-radius: 5px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  min-height: 260px;
+  max-height: 270px;
+  overflow: auto;
+}
+
+.new-game-btn {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: white;
+  color: black;
+  border: 1px black solid;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.new-game-btn:hover {
+  background-color: #e1e1e1;
+}
+
+.select-btn.selected {
+  background-color: #4CAF50; /* Or any other color for selected state */
+}
+.select-btn.selected:hover{
+  background-color: #388E3C !important;
+}
+
+.response button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #2196F3; /* Blue color for select button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.response button:hover {
+  background-color: #1976D2; /* Darker blue on hover */
+}
+.input-area input {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for input field */
+}
+
+.response {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Consistent shadow for response boxes */
+  transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.response:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover for interactivity */
+}
+
+@media (max-width: 800px) {
+  .responses-area {
     flex-direction: column;
-    align-items: center;
   }
-  
-  .input-area, .responses-area {
-    width: 100%;
-    max-width: 600px;
-    margin-bottom: 20px;
-  }
-  
-  .input-area {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
-  }
-  
-  .input-area input {
-    flex-grow: 1;
-    margin-right: 10px;
-    padding: 10px;
-    font-size: 16px;
-  }
-  
-  .input-area button {
-    padding: 10px 20px;
-    font-size: 16px;
-  }
-  
+
   .response {
-    background-color: #f7f7f7;
-    border: 1px solid #e1e1e1;
-    border-radius: 5px;
-    padding: 20px;
+    margin-right: 0;
     margin-bottom: 20px;
   }
-  
-  .response-label {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .input-area, .responses-area {
+    width: 90%;
   }
-  
-  .response-text {
-    font-size: 16px;
-    background-color: #e1e1e1;
-    padding: 15px;
-    border-radius: 5px;
-    min-height: 50px; /* Adjust height as needed */
-  }
-  
-  .response button {
-    width: 100%;
+
+  .input-area button, .response button {
     padding: 10px;
-    margin-top: 10px;
-    background-color: #4e9af1;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
   }
-  
-  .response button:hover {
-    background-color: #3578e5;
-  }
-  
-  @media (max-width: 600px) {
-    .input-area, .responses-area {
-      width: 90%;
-    }
-  
-    .input-area button, .response button {
-      padding: 10px;
-    }
-  }
+}
+
+
+.send-btn:disabled {
+  background-color: #cccccc !important;
+  color: #666666;
+}
