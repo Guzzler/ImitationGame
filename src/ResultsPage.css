@@ -26,8 +26,8 @@
 }
 
 .rating-button {
-  border: none;
-  background-color: #666666;
+  border: 1px #1f1f1f solid;
+  background-color: #f0f4f8;
   color: #2196F3;
   width: 40px;
   height: 40px;
@@ -56,6 +56,9 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
+}
+.survey-form select {
+  width: 103.5% !important;
 }
 
 .survey-form .submit-btn {

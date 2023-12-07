@@ -3,11 +3,14 @@ import "./UserPage.css"; // Updated CSS file for new styles
 import { useSearchParams } from "react-router-dom";
 import Typed from "react-typed";
 import { useNavigate } from "react-router-dom";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const UserPage = () => {
   const [searchParams] = useSearchParams();
   const difficulty = searchParams.get("difficulty") || "None";
   const challenger = searchParams.get("challenger") || "None";
+  const gameId = searchParams.get("gameId") || "None";
+
   const [question, setQuestion] = useState("");
   const [responses, setResponses] = useState({ A: [], B: [] });
   const [isFetching, setIsFetching] = useState(false);
@@ -43,32 +46,49 @@ const UserPage = () => {
 
   const handleQuestionSubmit = async () => {
     if (remainingQuestions > 0 && question !== "") {
-      setRemainingQuestions((prev) => prev - 1);
-      // Add the question to both responses A and B
-      setResponses((prevResponses) => ({
-        A: [
-          ...prevResponses.A,
-          { text: question, type: "question" },
-          { text: "response" },
-        ],
-        B: [...prevResponses.B, { text: question, type: "question" }],
-      }));
+      if (gameId && question) {
+        try {
+          setResponses((prevResponses) => ({
+            A: [...prevResponses.A, { text: question, type: "question" }],
+            B: [...prevResponses.B, { text: question, type: "question" }],
+          }));
 
-      setIsFetching(true);
-      // Simulate API call
-      const apiResponse = await sendQuestion(question); // Replace with actual API call
-      setIsFetching(false);
-
-      setResponses((prevResponses) => ({
-        A: [...prevResponses.A, { text: "apiResponse.A", type: "response" }],
-        B: [...prevResponses.B, { text: "apiResponse.B", type: "response" }],
-      }));
-      setQuestion("");
+          setIsFetching(true);
+          // Assuming `apiUrl` and `difficultyConverter` are defined and available in the scope
+          const response = await fetch(
+            `${apiUrl}fetch_responses?game_id=${encodeURIComponent(
+              gameId
+            )}&question=${encodeURIComponent(question)}`
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          // Check if the returned data has a gameId
+          if (data.response_a && data.response_b) {
+            setResponses((prevResponses) => ({
+              A: [
+                ...prevResponses.A,
+                { text: data.response_a, type: "response" },
+              ],
+              B: [
+                ...prevResponses.B,
+                { text: data.response_b, type: "response" },
+              ],
+            }));
+            setQuestion("");
+            setIsFetching(false);
+          } else {
+            throw new Error("Game ID not found");
+          }
+        } catch (error) {
+          console.error("There was a problem with the fetch operation:", error);
+          alert("There was an error sending the message. Please try again.");
+        }
+      } else {
+        alert("Please type a question.");
+      }
     }
-  };
-
-  const sendQuestion = async (question) => {
-    // fill with api.
   };
 
   const [selectedOption, setSelectedOption] = useState(null);
@@ -79,9 +99,22 @@ const UserPage = () => {
     setAskingConfirmation(true);
   };
 
-  const confirmSelection = () => {
-    if (selectedOption) {
-      navigate("/results");
+  const confirmSelection = async (response_type) => {
+    try {
+      const guess = response_type === "B" ? "True" : "False";
+      // Assuming `apiUrl` and `difficultyConverter` are defined and available in the scope
+      const response = await fetch(
+        `${apiUrl}check_guess?guess=${guess}&game_id=${gameId}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      // Check if the returned data has a gameId
+      navigate(`/results?didWin=${data.win}&gameId=${gameId}`);
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      alert("There was an error starting the game. Please try again.");
     }
   };
 
@@ -94,13 +127,13 @@ const UserPage = () => {
     if (response.type === "question") {
       return (
         <div className="question-bubble">
-          <Typed showCursor={false} strings={[response.text]} typeSpeed={40} />;
+          <Typed showCursor={false} strings={[response.text]} typeSpeed={40} />
         </div>
       );
     } else if (response.type === "response") {
       return (
         <div className="response-bubble">
-          <Typed showCursor={false} strings={[response.text]} typeSpeed={40} />;
+          <Typed showCursor={false} strings={[response.text]} typeSpeed={40} />
         </div>
       );
     }
@@ -110,7 +143,6 @@ const UserPage = () => {
     const handleCancel = (e) => {
       if (e.key === "Escape") {
         cancelSelection();
-        console.log("test");
       }
     };
 
@@ -124,9 +156,6 @@ const UserPage = () => {
       window.removeEventListener("click", handleCancel);
     };
   }, [askingConfirmation]);
-
-  console.log(selectedOption);
-  console.log(askingConfirmation);
 
   return (
     <div className="UserPage">
@@ -195,7 +224,7 @@ const UserPage = () => {
             className={`select-btn ${selectedOption === "A" ? "selected" : ""}`}
             onClick={() => {
               if (selectedOption === "A") {
-                confirmSelection();
+                confirmSelection("A");
               } else {
                 handleSelectResponse("A");
               }

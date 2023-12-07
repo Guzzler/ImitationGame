@@ -1,19 +1,47 @@
 import React, { useState } from "react";
 import "./IntroductoryScreen.css";
-import advaithImage from "./images/advaith.jpeg";
+import advaithImage from "./images/advaith-goof.png";
 import meghanaImage from "./images/meghana.jpeg";
-import sharangImage from "./images/sharang.jpeg";
+import sharangImage from "./images/sharang-goof.png";
 import { useNavigate } from "react-router-dom";
+const apiUrl = process.env.REACT_APP_API_URL;
+
+const difficultyConverter = {
+  easy: 1,
+  medium: 2,
+  hard: 3,
+};
 
 const IntroductoryScreen = () => {
   const [difficulty, setDifficulty] = useState("");
   const [challenger, setChallenger] = useState("");
   const navigate = useNavigate(); // Initialize useHistory
 
-  const startGame = () => {
+  const startGame = async () => {
     if (challenger && difficulty) {
-      // Navigate to /user with challenger and difficulty as query params
-      navigate(`/user?challenger=${challenger}&difficulty=${difficulty}`);
+      try {
+        // Assuming `apiUrl` and `difficultyConverter` are defined and available in the scope
+        const response = await fetch(
+          `${apiUrl}create_game?name=${encodeURIComponent(
+            challenger
+          )}&difficulty=${encodeURIComponent(difficultyConverter[difficulty])}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        // Check if the returned data has a gameId
+        if (data.game_id) {
+          navigate(
+            `/user?challenger=${challenger}&difficulty=${difficulty}&gameId=${data.game_id}`
+          );
+        } else {
+          throw new Error("Game ID not found");
+        }
+      } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+        alert("There was an error starting the game. Please try again.");
+      }
     } else {
       alert("Please select both a challenger and a difficulty level.");
     }

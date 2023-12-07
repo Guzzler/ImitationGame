@@ -1,16 +1,39 @@
 import React, { useState } from "react";
 import "./ResultsPage.css"; // Make sure to create and import the corresponding CSS file
+import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+const apiUrl = process.env.REACT_APP_API_URL;
 
-const ResultsPage = ({ didWin }) => {
+const ResultsPage = () => {
   const [difficultyRating, setDifficultyRating] = useState("");
   const [guessReason, setGuessReason] = useState("");
   const [feedback, setFeedback] = useState("");
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate(); // Initialize useHistory
 
-  const handleSubmit = (e) => {
+  const didWin = searchParams.get("didWin");
+  const gameId = searchParams.get("gameId");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Process the survey data
-    console.log({ difficultyRating, guessReason, feedback });
-    // Redirect or show a message after submission
+    try {
+      // Assuming `apiUrl` and `difficultyConverter` are defined and available in the scope
+      const response = await fetch(
+        `${apiUrl}feedback?difficulty=${encodeURIComponent(
+          difficultyRating
+        )}&reason=${encodeURIComponent(
+          guessReason
+        )}&comment=${feedback}&game_id=${gameId}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      // Check if the returned data has a gameId
+      navigate("/");
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      alert("There was an error starting the game. Please try again.");
+    }
   };
 
   const canSubmit = difficultyRating && guessReason.length > 0;
@@ -41,13 +64,17 @@ const ResultsPage = ({ didWin }) => {
         </div>
 
         <label htmlFor="guessReason">Why did you guess this way?</label>
-        <input
+        <select
           id="guessReason"
-          type="text"
           value={guessReason}
           onChange={(e) => setGuessReason(e.target.value)}
-          placeholder="Your reason"
-        />
+        >
+          <option value="">Select your reason</option>
+          <option value="style">The Style</option>
+          <option value="recalling-facts">Recalling Facts</option>
+          <option value="grammar-coherence">Grammar / Coherence</option>
+          <option value="other">Other</option>
+        </select>
 
         <label htmlFor="feedback">Give us more Feedback! (Optional)</label>
         <textarea

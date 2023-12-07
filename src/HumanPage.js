@@ -1,32 +1,60 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import Typed from "react-typed";
-import { useSearchParams } from "react-router-dom";
 import "./HumanPage.css";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const HumanPage = () => {
-  const [searchParams] = useSearchParams();
-  const name = searchParams.get("name") || "None";
+  const [name, setName] = useState("");
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
+  const [roundId, setRoundId] = useState("");
   const [isFetchingQuestion, setIsFetchingQuestion] = useState(false);
   const [typedComplete, setTypedComplete] = useState(false);
   const intervalRef = useRef();
   // Placeholder functions for API calls
-  async function getQuestionFromAPI(name) {
+  async function getQuestionFromAPI() {
     // Your API call logic here
-    return "What's your favourite colour?";
+    try {
+      // Assuming `apiUrl` and `difficultyConverter` are defined and available in the scope
+      const response = await fetch(`${apiUrl}fetch_question`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+
+      if (data.is_question) {
+        setQuestion(data.question);
+        setName(data.human);
+        setRoundId(data.round_id);
+      }
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      alert("There was an error starting the game. Please try again.");
+    }
   }
 
   async function submitAnswerToAPI(answer) {
     // Your API call logic here
-    console.log("Answer submitted:", answer);
+    try {
+      // Assuming `apiUrl` and `difficultyConverter` are defined and available in the scope
+      const response = await fetch(
+        `${apiUrl}save_human_response?answer=${answer}&round_id=${roundId}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      await response.json();
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      alert("There was an error starting the game. Please try again.");
+    }
   }
   const fetchQuestion = useCallback(async () => {
     setIsFetchingQuestion(true);
     try {
       // Replace with your actual API call and include the `name` in the request if needed
-      const response = await getQuestionFromAPI(name);
-      setQuestion(response);
+      await getQuestionFromAPI(name);
     } catch (error) {
       console.error("Error fetching question:", error);
       // Handle error appropriately
@@ -39,6 +67,8 @@ const HumanPage = () => {
     await submitAnswerToAPI(answer); // Replace with your actual API call
     setAnswer("");
     setQuestion("");
+    setRoundId("");
+    setName("");
     setTypedComplete(false);
   };
 
@@ -58,7 +88,6 @@ const HumanPage = () => {
       clearInterval(intervalRef.current);
     }
   }, [typedComplete]);
-
   return (
     <div className="HumanPage">
       <div>Challenger: {name}</div>
