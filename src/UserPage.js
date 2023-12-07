@@ -102,7 +102,7 @@ const UserPage = () => {
 
   const confirmSelection = async (response_type) => {
     try {
-      const guess = response_type === "B" ? "True" : "False";
+      const guess = response_type === "B" ? "B" : "A";
       // Assuming `apiUrl` and `difficultyConverter` are defined and available in the scope
       const response = await fetch(
         `${apiUrl}check_guess?guess=${guess}&game_id=${gameId}`
@@ -212,51 +212,55 @@ const UserPage = () => {
       </div>
       <div className="responses-area">
         <div className="response">
-          <div className="response-label">Response A:</div>
+          <div className="response-label">Responses for A:</div>
           <div className="response-text">
             {responses.A.map(renderResponse)}
             {isFetching && (
               <div className="response-bubble"> Waiting for Response...</div>
             )}
           </div>
-          <button
-            className={`select-btn ${selectedOption === "A" ? "selected" : ""}`}
-            onClick={() => {
-              if (selectedOption === "A") {
-                confirmSelection("A");
-              } else {
-                handleSelectResponse("A");
-              }
-            }}
-          >
-            {askingConfirmation && selectedOption === "A"
-              ? "Are you sure?"
-              : `Select A as ${challenger}`}
-          </button>
         </div>
         <div className="response">
-          <div className="response-label">Response B:</div>
+          <div className="response-label">Responses for B:</div>
           <div className="response-text">
             {responses.B.map(renderResponse)}
             {isFetching && (
               <div className="response-bubble"> Waiting for Response...</div>
             )}
           </div>
-          <button
-            className={`select-btn ${selectedOption === "B" ? "selected" : ""}`}
-            onClick={() => {
-              if (selectedOption === "B") {
-                confirmSelection("B");
-              } else {
-                handleSelectResponse("B");
-              }
-            }}
-          >
-            {askingConfirmation && selectedOption === "B"
-              ? "Are you sure?"
-              : `Select B as ${challenger}`}
-          </button>
         </div>
+      </div>
+      <div className="selection-buttons">
+        <button
+          className={`select-btn ${selectedOption === "A" ? "selected" : ""}`}
+          onClick={() => {
+            if (selectedOption === "A") {
+              confirmSelection("A");
+            } else {
+              handleSelectResponse("A");
+            }
+          }}
+          disabled={responses.A.length === 0}
+        >
+          {askingConfirmation && selectedOption === "A"
+            ? "Are you sure?"
+            : `Select A as ${challenger}`}
+        </button>
+        <button
+          className={`select-btn ${selectedOption === "B" ? "selected" : ""}`}
+          onClick={() => {
+            if (selectedOption === "B") {
+              confirmSelection("B");
+            } else {
+              handleSelectResponse("B");
+            }
+          }}
+          disabled={responses.B.length === 0}
+        >
+          {askingConfirmation && selectedOption === "B"
+            ? "Are you sure?"
+            : `Select B as ${challenger}`}
+        </button>
       </div>
       <button className="new-game-btn" onClick={handleNewGame}>
         New Game

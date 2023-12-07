@@ -155,7 +155,7 @@
   background-color: #388E3C !important;
 }
 
-.response button {
+.selection-buttons button {
   width: 100%;
   padding: 10px;
   margin-top: 10px;
@@ -163,10 +163,23 @@
   color: white;
   border: none;
   border-radius: 5px;
+  min-width: 200px;
+  
+}
+.selection-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 300px;
 }
 
-.response button:hover {
+.selection-buttons button:hover {
   background-color: #1976D2; /* Darker blue on hover */
+}
+
+.selection-buttons button:disabled {
+  background-color: #cccccc !important;
+  color: #666666;/* Darker blue on hover */
 }
 .input-area input {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for input field */
