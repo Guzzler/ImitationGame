@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./IntroductoryScreen.css";
 import advaithImage from "./images/advaith-goof.png";
-import meghanaImage from "./images/meghana.jpeg";
+import meghanaImage from "./images/meghana-goof.png";
 import sharangImage from "./images/sharang-goof.png";
 import { useNavigate } from "react-router-dom";
 const apiUrl = process.env.REACT_APP_API_URL;
