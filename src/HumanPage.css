@@ -49,9 +49,10 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  
-  .answer-box button:hover {
-    background-color: #0056b3; /* Slightly darker on hover */
+
+  .human-button:disabled{
+    background-color: #cccccc !important;
+    color: #666666;
   }
   
   @media (max-width: 768px) {

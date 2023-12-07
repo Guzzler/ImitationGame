@@ -82,8 +82,11 @@ const HumanPage = () => {
           disabled={!typedComplete}
         />
         <button
+          className="human-button"
           onClick={handleAnswerSubmit}
-          disabled={!typedComplete || answer.trim() === ""}
+          disabled={
+            !typedComplete || question.length === 0 || answer.trim() === ""
+          }
         >
           Send
         </button>
