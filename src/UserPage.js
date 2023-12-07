@@ -78,6 +78,7 @@ const UserPage = () => {
             }));
             setQuestion("");
             setIsFetching(false);
+            setRemainingQuestions(remainingQuestions - 1);
           } else {
             throw new Error("Game ID not found");
           }
