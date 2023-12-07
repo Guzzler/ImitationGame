@@ -216,9 +216,7 @@ const UserPage = () => {
           <div className="response-text">
             {responses.A.map(renderResponse)}
             {isFetching && (
-              <div className="waiting for response">
-                Waiting for response...
-              </div>
+              <div className="response-bubble"> Waiting for Response...</div>
             )}
           </div>
           <button
@@ -240,7 +238,9 @@ const UserPage = () => {
           <div className="response-label">Response B:</div>
           <div className="response-text">
             {responses.B.map(renderResponse)}
-            {isFetching && <div>Waiting for response...</div>}
+            {isFetching && (
+              <div className="response-bubble"> Waiting for Response...</div>
+            )}
           </div>
           <button
             className={`select-btn ${selectedOption === "B" ? "selected" : ""}`}
